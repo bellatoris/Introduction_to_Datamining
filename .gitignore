@@ -2,3 +2,5 @@
 # please type what you want to ignore
 
 *~
+*.tar
+*.gz
