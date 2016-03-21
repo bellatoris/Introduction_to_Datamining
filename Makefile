@@ -13,10 +13,10 @@ in:
 	hadoop com.sun.tools.javac.Main IndegreeCounter.java
 	jar cf IndegreeCounter.jar IndegreeCounter*.class
 	rm -rf IndegreeCounter*.class
-	hadoop jar IndegreeCounter.jar IndegreeCounter ./problem.edge ./output_indegree
+	hadoop jar IndegreeCounter.jar IndegreeCounter ./soc-LiveJournal1.txt ./output_indegree
 	hadoop fs -cat output_indegree/part-r-00000
 	hadoop fs -get output_indegree/part-r-00000 output_indegree.txt
-#       hadoop jar <jar file> <main class> ./problem.edge <output folder>
+#       hadoop jar <jar file> <main class> ./soc-LiveJournal1.txt <output folder>
 #	hadoop fs -cat <output file in HDFS>
 #	hadoop fs -get <output file in HDFS> <output file in local> 
 
@@ -24,7 +24,7 @@ out:
 	hadoop com.sun.tools.javac.Main OutdegreeCounter.java
 	jar cf OutdegreeCounter.jar OutdegreeCounter*.class
 	rm -rf OutdegreeCounter*.class
-	hadoop jar OutdegreeCounter.jar OutdegreeCounter ./problem.edge ./output_outdegree
+	hadoop jar OutdegreeCounter.jar OutdegreeCounter ./soc-LiveJournal1.txt ./output_outdegree
 	hadoop fs -cat output_outdegree/part-r-00000
 	hadoop fs -get output_outdegree/part-r-00000 output_outdegree.txt
 
