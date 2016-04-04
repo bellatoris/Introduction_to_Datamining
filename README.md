@@ -41,6 +41,7 @@
    * A: Find earliest bucket B that at overlaps with k. Number of 1s is the sum of sizes of more recent buckets + 1/2 size of B
    ![Pic44](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.03.09.png)
    * 앞서 해왔던 방법과 exactly하게 동일하다.  
+
 * Can we handle the case where the steam is not bits, but integers, and we want the sum of the last k elements?
 * Steam of positive integers
 * We want the sum of the lst k elements
