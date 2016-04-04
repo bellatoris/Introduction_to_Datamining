@@ -85,7 +85,6 @@
 * Each element of data stream is a tuple
 * Given a list of keys **S**
 * Determine which tupes of stream are in s
-   
 * Obivious solution: Hash table
    * 즉 모든 key **S**를 Hashing 해서  bucket에 넣어두고 (conflicts 없이) Streaming data가 오면 hashing해서 같은 bucket에 들어가면 "good" email 그렇지 않으면 spam으로 취급한다.
    * But suppose we do not have enough memory to sotre allof **S** in a hash table
@@ -99,7 +98,6 @@
 * Hash each element a of the stream and output only those that hash to bit that was set to 1
    * Output a if B[h(a)] == 1
 ![Pic7-7](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.53.20.png)
-  
 * Creates false positives but no false negatives
    * If the item is in **S** we surely output it, if not we may still output it
 * |S| = 1 billion email addresses  
