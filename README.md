@@ -7,7 +7,7 @@
    1. Sum the sizes of all buckets but the last  
       (note "size" means the number of 1s in the bucket)
    2. Add half the size of the last bucket
-* Remember: We do not know how man 1s of the last bucket are still within the wanted window
+* Remember: We do not know how many 1s of the last bucket are still within the wanted window
 
 ####Example: Bucketized Steam
 ![Pic41](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%EC%A0%84%2011.58.50.png)
@@ -62,3 +62,10 @@
    * Extensions:
       * Number of 1s in any last k (k < N) elements
       * Sums of integers in the last N elements
+
+##Lecture \#7: Mining Data Streams-2
+####Today's Lecture
+* More algorithms for streams:
+   * 
+###Queries Over Sliding Window
+
