@@ -157,7 +157,7 @@
       * Error at k = 6: (1 - e^(-1/6))^2 = 0.0235
 
 ####Bloom Filter: Wrap-up
-* Bllom filters guarantee no false negatives, and use limited memory
+* Bloom filters guarantee no false negatives, and use limited memory
    * Great for pro-processing before more expensive checks
 * Suitable for hardware implementation
    * Hash gunction compustations can be parallelized<br><br>
