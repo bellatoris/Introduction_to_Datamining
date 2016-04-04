@@ -2,6 +2,7 @@
 <img src = "https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/IMG_2568.GIF">
 ##Lecture \#6: Mining Data Streams
 ###Queries Over Sliding Window
+***
 ##4월 4일
 ####How to Query?
 * To estimate the number of 1s in the most recent N bits:
@@ -74,6 +75,7 @@
       * Number of distinct elements in the last k elements of the stream
 
 ###Filtering Data Stream
+***
 ####Motivating Applications
 * Example: Email spam filtering
    * We know 1 billion "good" email addresses
@@ -165,6 +167,7 @@
    * 여기서 k small Bs란 각각의 hash function마다 Bucket을 따로 두는 것을 말한다. 큰 Bucket 하나를 쓰나 작은 Bucket 여러개를 쓰나 그 결과는 동일하다.
 
 ###Counting Distinct Elements
+***
 ####Motivating Applications
 * How many different words are found among the Web pages being crawled at a site?
  * Unusually low or high numbers could indicate articial pages (spam?)<br><br>
