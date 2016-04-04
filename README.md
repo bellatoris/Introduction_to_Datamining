@@ -152,7 +152,7 @@
    * k = 2: (1 - e^(-1/4))^2 = 0.0493<br><br>
 * What happens as we keep increasing k?
    * Bucket이 모두 1로 되어버려서 모든 mail을 "good" mail이라고 받아들이게 된다.<br><br>
-* "Optimal" value of k: n/m * ln(2)
+* "Optimal" value of k: ***n/m * ln(2)***
    * In out case: Optimal k = 8 * ln(2) = 5.54 ~= 6
       * Error at k = 6: (1 - e^(-1/6))^2 = 0.0235
 
