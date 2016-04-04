@@ -1,4 +1,5 @@
 # Introduction_to_Datamining
+<img src = "https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/IMG_2568.GIF">
 ##Lecture \#6: Mining Data Streams
 ###Queries Over Sliding Window
 ##4월 4일
@@ -122,3 +123,34 @@
 * Example: 10^9 darts, 8 * 10^9 targets
    * Fraction of 1s in **B** = 1 - e^(-1/8) = 0.1175
       * Compare with our earlier estimate: 1/8 = 0.125
+
+####Bloom Filter
+* Consider: |S| = m, |B| = n
+*  Use k independent hash gunctions h_1, ..., h_k
+*  Initialization:
+   * Set **B** to all **0s**
+   * Hash each element **s in S** using each hash function *__h_i__*, set B[*__h_i(s)__*] = 1 (for each *__i = 1,...,k__*)
+      * note: we have a single array B!
+      * 즉 각각의 s에 대해서 k번 hashing한다.
+* Run-time:
+   * When a stream element with key *__x__* arrives 
+      * That is, *__x__* hashes to a bucket set to **1** for every hash function *__h_i(x)__*
+   * Otherwise discard the element *__x__*
+   * x를 k번 hashing한 결과 k개의 h_i[x]가 모두 1로 set되어 있어야 "good" mail로 받아들인다.
+
+####Bloom Filter -- Analysis
+* WHat fraction of the bit vector B are 1s?
+   * Throwing *__k\*m__* darts at *__n__* targets
+   * So fraction of **1s** is *(1 - e^(-km/n))*
+* But we have *__k__* independent hash functions ans we only let the element *__x__* through **if all k** hash element *__x__* to a bucket of value **1**
+* So, false positive probability = *__(1 - e^(-km/n))^k__*  <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.53.47.png" height="300"  align="right">
+* m = 1 billion, n = 8 billion
+   * k = 1: (1 - e^(-1/8)) = 0.1775  
+   * k = 2: (1 - e^(-1/4))^2 = 0.0493
+* What happens as we keep increasing k?
+   * Bucket이 모두 1로 되어버려서 모든 mail을 "good" mail이라고 받아들이게 된다.
+* "Optimal" value of k: n/m * ln(2)
+   * In out case: Optimal k = 8 * ln(2) = 5.54 ~= 6
+      * Error at k = 6: (1 - e^(-1/6))^2 = 0.0235
+
+
