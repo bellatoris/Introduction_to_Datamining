@@ -140,17 +140,53 @@
 
 ####Bloom Filter -- Analysis
 * WHat fraction of the bit vector B are 1s?
-   * Throwing *__km__* darts at *__n__* targets \*
+   * Throwing *__km__* darts at *__n__* targets   
    * So fraction of **1s** is *(1 - e^(-km/n))*
 * But we have *__k__* independent hash functions ans we only let the element *__x__* through **if all k** hash element *__x__* to a bucket of value **1**
-* So, false positive probability = *__(1 - e^(-km/n))^k__*  <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.53.47.png" height="300"  align="right">
+* So, false positive probability = *__(1 - e^(-km/n))^k__*  <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.53.47.png" height="300"  align="right"> <br><br>
 * m = 1 billion, n = 8 billion
    * k = 1: (1 - e^(-1/8)) = 0.1775  
-   * k = 2: (1 - e^(-1/4))^2 = 0.0493
+   * k = 2: (1 - e^(-1/4))^2 = 0.0493<br><br>
 * What happens as we keep increasing k?
-   * Bucket이 모두 1로 되어버려서 모든 mail을 "good" mail이라고 받아들이게 된다.
+   * Bucket이 모두 1로 되어버려서 모든 mail을 "good" mail이라고 받아들이게 된다.<br><br>
 * "Optimal" value of k: n/m * ln(2)
    * In out case: Optimal k = 8 * ln(2) = 5.54 ~= 6
       * Error at k = 6: (1 - e^(-1/6))^2 = 0.0235
 
+####Bloom Filter: Wrap-up
+* Bllom filters guarantee no false negatives, and use limited memory
+   * Great for pro-processing before more expensive checks
+* Suitable for hardware implementation
+   * Hash gunction compustations can be parallelized<br><br>
+* It it better to have **1 big B** or **k small Bs**?
+   * **It is the same:** *(1 - e^(-km/n))^k* vs. *(1 - e^(-m/(n/k)))^k*
+   * But keeping **1 big B** is simpler
+   * 여기서 k small Bs란 각각의 hash function마다 Bucket을 따로 두는 것을 말한다. 큰 Bucket 하나를 쓰나 작은 Bucket 여러개를 쓰나 그 결과는 동일하다.
 
+###Counting Distinct Elements
+####Motivating Applications
+* How many different words are found among the Web pages being crawled at a site?
+ * Unusually low or high numbers could indicate articial pages (spam?)<br><br>
+* How many different Web pages dows each customer request in a week?<br><br>
+* How many distinct products hace we sold in the last week?
+
+####Counting Distinct Elements
+* Problem:
+   * Data stream consists of a universe of elements chosen form a set of size ***N***
+   * Maintain a count of the number of distinct elements seen so far
+* Obvious approach:  
+Maintain the set of elements seen so far
+   * That is, keep a hash table of all the distinct elements so far
+   * 그러나 이 경우에 set of elements가 너무 커서 memory에 fit하지 않을 수 있다.
+   
+####Using Small Storage
+* Real problem: What if we don not have space to maintain the set of elements seen so far?<br><br>
+* Estimate the count in an unbiased way -> E(X_hat) = E(X)<br><br>
+* Accept that the count may have a little error, but limit the probability that the error is large
+
+####Flajolet-Martin Approach **(O(N)의 memory space 공간을 O(log(N))으로 줄일 수 있다!)**
+* Hash each item x to a bit, using exponential distribution
+   * 1/2 map to bit 0, 1/4 map to bit 1, ...
+   ![Pic7-20](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.54.08.png)
+* Let R be position of the least '0' bit
+* [Flajolet, Martin]: the number of distinct items is 2^R/phi, where phi is a constant
