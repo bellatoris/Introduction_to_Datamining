@@ -66,6 +66,60 @@
 ##Lecture \#7: Mining Data Streams-2
 ####Today's Lecture
 * More algorithms for streams:
-   * 
-###Queries Over Sliding Window
+   * (1) Filtering a data steam: Bloom filters
+      * Select elements with property x from stream
+   * (2) Counting distinct elements: Flajolet-Martin
+      * Number of distinct elements in the last k elements of the stream
 
+###Filtering Data Stream
+####Motivating Applications
+* Example: Email spam filtering
+   * We know 1 billion "good" email addresses
+   * If an email comes from one of these, it is **NOT** spam
+* Publish-subscribe systems
+   * You are collecting lots of messages (new articles)
+   * People express interest in certain sets of keywords
+   * Determine whether each message matches user's interest
+
+####Filtering Data Steams
+* Each element of data stream is a tuple
+* Given a list of keys **S**
+* Determine which tupes of stream are in s
+   
+* Obivious solution: Hash table
+   * 즉 모든 key **S**를 Hashing 해서  bucket에 넣어두고 (conflicts 없이) Streaming data가 오면 hashing해서 같은 bucket에 들어가면 "good" email 그렇지 않으면 spam으로 취급한다.
+   * But suppose we do not have enough memory to sotre allof **S** in a hash table
+      * E.g., we might be processing millions of filters on the same stream 
+
+####First Cut Solution
+* Given a set of keys S that we want to filter
+* Create a bit array B of n bits, initially all 0s
+* Choose a hash function h with range [0,n)
+* Hash each member of s in **S** to one of n buckets, and set that bit to 1, i.e., B[h(s)] = 1
+* Hash each element a of the stream and output only those that hash to bit that was set to 1
+   * Output a if B[h(a)] == 1
+![Pic7-7](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.53.20.png)
+  
+* Creates false positives but no false negatives
+   * If the item is in **S** we surely output it, if not we may still output it
+* |S| = 1 billion email addresses  
+|B| = 1GB = 8 billion bits
+* If the email address is in **S**, then it surely hashes to a bucket that has the bit set to 1, so it always gets through (*no false negatives*)
+* Approcimately 1/8 of the bits are set to 1, so about 1/8th of the addresses not in S get through to the output (*false positives*)
+   * Actually, less than 1/8th, because more than one address might hash to the same bit
+   
+####Analysis: Throwing Darts
+* More accurate analysis for the number of false positives
+* Consider: If we throw m darts into n equally likely targets, **what is the probability that a target gets at leasr one dart?**
+   * n = bucket의 size
+   * m = list of keys (e.g., "good" mail list)
+* In our case:
+   * **Targets** = bits/buckets
+   * **Darts** = hash values of items
+* We have *__m__* darts, *__n__* targets
+* What is the probability that a target gets at least one dart?
+![Pic7-10](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.53.35.png)
+* Fraction of 1s in the array B = probability of false positive = 1 - e^(-m/n)
+* Example: 10^9 darts, 8 * 10^9 targets
+   * Fraction of 1s in **B** = 1 - e^(-1/8) = 0.1175
+      * Compare with our earlier estimate: 1/8 = 0.125
