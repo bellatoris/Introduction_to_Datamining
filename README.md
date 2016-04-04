@@ -31,7 +31,7 @@
       error = O(1/k)
 * By picking r appropriately, we can tradeoff between number of bits we store and the error
    * Increasing r => more memory space (more small size bucket), less error
-   * 그렇다면 얼마나 많은 memroy공간이 필요한 것일까?
+   * 그렇다면 얼마나 많은 memroy공간이 필요한 것일까?  
       Largest bucket의 size가 2^r이라 했을 때 대략 (k - 1) * (2^(r + 1) - 1)  = N 이라 한다면
       r = log(N/k)이 된다.  
       Total number of buckets = O(k * log(N/k))
