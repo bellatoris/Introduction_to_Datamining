@@ -16,7 +16,7 @@
 ####Error Bound: Proof
 * Why is error 50%? Let's prove it! (error = |x_hat - x| / x)
 * Suppose the last bucket has size 2^r
-* Then bu assuming 2^(r - 1) (i.e., half) of its 1s are still within the window, we make an error at most 2^(r -1) -> largest error (e.g., 마지막 bucket의 sliding window안에 존재하는 1의 개수가 실제로는 1개인데 2^(r - 1)로 추정했을 경우의 error)
+* Then by assuming 2^(r - 1) (i.e., half) of its 1s are still within the window, we make an error at most 2^(r -1) -> largest error (e.g., 마지막 bucket의 sliding window안에 존재하는 1의 개수가 실제로는 1개인데 2^(r - 1)로 추정했을 경우의 error)
 * Since there is at least one bucket of each of the sizes less than 2^r, the true sum is at least  
    1 + 2 + 4 + ... + 2^(r - 1) = 2^r - 1 (실제로는 각 size에 해당하는 bucket의 개수가 최대 2개 이므로 이보다 클 수 있다.)
 * Thus error is at most 50% (error = |x_hat - x| / x = 2^(r - 1) / 2^r = 0.5)
@@ -110,7 +110,7 @@
    
 ####Analysis: Throwing Darts
 * More accurate analysis for the number of false positives
-* Consider: If we throw m darts into n equally likely targets, **what is the probability that a target gets at leasr one dart?**
+* Consider: If we throw m darts into n equally likely targets, **what is the probability that a target gets at least one dart?**
    * n = bucket의 size
    * m = list of keys (e.g., "good" mail list)
 * In our case:
