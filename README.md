@@ -189,4 +189,4 @@ Maintain the set of elements seen so far
    * 1/2 map to bit 0, 1/4 map to bit 1, ...
    ![Pic7-20](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.54.08.png)
 * Let R be position of the least '0' bit
-* [Flajolet, Martin]: the number of distinct items is 2^R/phi, where phi is a constant
+* [Flajolet, Martin]: the number of distinct items is 2^R/***phi***, where ***phi*** is a constant
