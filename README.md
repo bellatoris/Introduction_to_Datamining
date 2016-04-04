@@ -139,9 +139,10 @@
    * x를 k번 hashing한 결과 k개의 h_i[x]가 모두 1로 set되어 있어야 "good" mail로 받아들인다.
 
 ####Bloom Filter -- Analysis
-* WHat fraction of the bit vector B are 1s?
+* What fraction of the bit vector B are 1s?
    * Throwing *__km__* darts at *__n__* targets   
    * So fraction of **1s** is *(1 - e^(-km/n))*
+   * Dart ***km***개를 다 맞춰야 "good" mail
 * But we have *__k__* independent hash functions ans we only let the element *__x__* through **if all k** hash element *__x__* to a bucket of value **1**
 * So, false positive probability = *__(1 - e^(-km/n))^k__*  <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.53.47.png" height="300"  align="right"> <br><br>
 * m = 1 billion, n = 8 billion
