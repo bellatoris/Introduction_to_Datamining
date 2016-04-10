@@ -125,6 +125,7 @@
 * Example: 10^9 darts, 8 * 10^9 targets
    * Fraction of 1s in **B** = 1 - e^(-1/8) = 0.1175
       * Compare with our earlier estimate: 1/8 = 0.125
+* 결국 모든 key (in S)들을 hashing했을 때 B가 얼마나 1로 채워질지를 구하는 것이다.
 
 ####Bloom Filter
 * Consider: |S| = m, |B| = n
@@ -139,6 +140,7 @@
       * That is, *__x__* hashes to a bucket set to **1** for every hash function *__h_i(x)__*
    * Otherwise discard the element *__x__*
    * x를 k번 hashing한 결과 k개의 h_i[x]가 모두 1로 set되어 있어야 "good" mail로 받아들인다.
+   * B가 더 많이 1로 채워지긴 하겠지만 x도 모두 맞춰야 하므로 optimal한 값을 찾으면 dart를 한번 던졌을 때 보다 false positive의 확률이 낮아질 것이다.
 
 ####Bloom Filter -- Analysis
 * What fraction of the bit vector B are 1s?
@@ -196,4 +198,59 @@ Maintain the set of elements seen so far
    ![Pic7-20](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.54.08.png)
 * Let R be position of the least '0' bit
 * [Flajolet, Martin]: the number of distinct items is 2^R/***phi***, where ***phi*** is a constant
-* 추가적인 설명:  hashing 했을 때 그 결과가 0 이 나올 확률이 1/2, 1이 나올 확률이 1/4, ... , n이 나올 확률이 (1 / 2)^(n + 1)이다. array에서 왼쪽bit부터 
+* 추가적인 설명:  hashing 했을 때 그 결과가 0 이 나올 확률이 1/2, 1이 나올 확률이 1/4, ... , n이 나올 확률이 (1/2)^(n+1)이다. 위의 그림에서 array의 왼쪽이 index가 작은쪽이다.
+* 지금 R = 3이므로 the number of distinct itme = 2^R/***phi***
+
+####Intuition
+* Hash each item x to a bit, using exponential distribution: 1/2 map to bit 0, 1/4 map to bit 1, ...  
+   ![Pic7-21](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.54.08.png)
+* Intuition
+    * The 0_th bit is accessed with prob. 1/2
+    * The 1_st bit is accessed with prob. 1/4
+    * ... The k_th bit is accessed with prob. (1/2)^(k+1) -> O(1/2^(k+1)) -> O(1/2^k)
+    * k번째 bit가 1이 나올 확률 1/2^(k+1) -> 2^(k+1)개의 item을 넣었을 때 기댓값 = 1<br><br>
+    그러므로 우리의 distinct item의 개수는 대략 2^(k+1)개 일 것이다.<br><br>
+    그런데 우리는 last one bit index를 사용하지 않고 least zero bit index를 사용! -> 2^(k+1)/***phi***가 전체 distinct item의 개수 (k가 last one bit inedex라 했을 때)
+    * last one bit을 사용하지 않고 least zero bit을 사용하는 이유는... 논문에 나와있다!<br><br>
+    그런데 생각해보면 k번째 bit가 1이 나올 기댓값을 1로 만들어 주기 위해서는 2^(k+1)이 필요하니까 그냥 편하게 R = k+1이니까 R을 선택한 것이 아닐까?
+
+####Improving Accuracy
+* Hash each item x to a bit, using exponential distribution: 1/2 map to bit 0, 1/4 map to bit 1, ...  
+   ![Pic7-21](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.54.08.png)
+* Map each item to ***k*** different bitstrings, and we compute the **average** least '0' bit poition b: # of items = 2^b/***phi***
+    * => decrease the variance
+    * 즉 k번 hashing해서 그 결과를 평균취하면 그 random variable의 평균은 동일하지만 분산은 낮아진다. (god changhyun)<br><br>
+* The final estimate: 2^b / (0.77351 * *bias*)
+    * b: average least zero bit in the bitmask
+    * bias: 1 + .31/k for k different mappings (k different hashing)
+
+####Random Hash Function
+* Hash each item to x to a bit, using exponential distribution
+    * 1/2 map to bit 0, 1/4 map to bit 1,... <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.54.24.png" align="right" height="50">
+* How can we get this function?
+    * Typically, a hash function maps an item to a random bucket<br><br>
+* Answer: use linear hash funcitons. Pick random (a_i, b_i) and then then the hash funciton is:
+    * *lhash_i(x)* = a_i \* x + b_i
+    * This gives uniform distribution over the bits
+    * 즉 모든 bit들이 1이 될 확률은 1/2로 동일하다.<br><br>
+* To make this exponential, define
+    * *hash_i(x)* = least zero bit index in *lhash_i(x)* (in binary format)
+    * 모든 bit들이 1이 될 확률은 1/2로 동일하기 때문에
+        1. p(least zero bit index == 0) = 1/2
+        2. p(least zero bit index == 1) = 1/4 (array의 2번 째 bit에서 처음으로 0이 나와야 하므로 1/2 \* 1/2)
+        3. p(least zero bit index == k) = 1/2^(k+ 1)
+
+####Storage Requirement
+* Flajolet-Martin:
+    * Let R be the position of the least '0' bit
+    * The number of distinct items is 2^R/***phi***, where phi is a constant<br><br>
+* How much storage do we need?
+    * R bits are required to count a set with 2^R/***phi*** = O(2^R) distinct items.
+    * Thus, given a set with N distinct items, we need only O(log N) bits.
+
+##Lecture \#8: Mining Data Streams-3
+###Estimating Moments
+***
+####Generalization: Moments
+* Suppose a stream has elements chosen from a set A of N values<br><br>
+* Let *m_i* be the number of times value i occurs in the stream
