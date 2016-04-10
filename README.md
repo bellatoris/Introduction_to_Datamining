@@ -253,4 +253,8 @@ Maintain the set of elements seen so far
 ***
 ####Generalization: Moments
 * Suppose a stream has elements chosen from a set A of N values<br><br>
-* Let *m_i* be the number of times value i occurs in the stream
+* Let *m_i* be the number of times value i occurs in the stream<br><br>
+* The k_th ***moment*** is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.30.53.png" height="50" align="middle"><br><br>
+* E.g., for a stream (x, y, x, y, z, z, z, x, z),
+    * The 2_nd moment is 3^2 + 2^2 + 4^2 = 29
+    * (x appears  3 times, y appears 2 times, z appears 4 times)
