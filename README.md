@@ -254,7 +254,48 @@ Maintain the set of elements seen so far
 ####Generalization: Moments
 * Suppose a stream has elements chosen from a set A of N values<br><br>
 * Let *m_i* be the number of times value i occurs in the stream<br><br>
-* The k_th ***moment*** is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.30.53.png" height="50" align="middle"><br><br>
+* The k_th ***moment*** is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.30.53.png" height="50" align="center" hspace="70"><br><br>
 * E.g., for a stream (x, y, x, y, z, z, z, x, z),
     * The 2_nd moment is 3^2 + 2^2 + 4^2 = 29
     * (x appears  3 times, y appears 2 times, z appears 4 times)
+
+####Special Cases
+<img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.30.53.png" height="80" align="center" hspace="300"><br><br>
+* **0_th moment** = number of distinct elements
+    * The problem considered in the last lecture
+* **1_st moment** = count of the numbers of elements = length of the stream
+    * Easy to compute
+* **2_nd moment** = ***surprise number S*** =  
+    a measure of how uneven the distribution is
+
+####Example: Surprise Number
+* Stream of length 100
+* 11 distinct values<br><br>
+* Item counts: 10, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9 **Surprsie S = 910**<br><br>
+* Item counts: 90, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 **Surprise S = 8,110**<br><br>
+
+####Problem Definition
+* Q: Given a stream, how can we estimate k_th moments efficiently, with small memory space?<br><br>
+* A: AMS method
+
+####AMS Method
+* AMS method works for all moments
+* Gines an unbiased setimate
+* We first concentrate on the 2_nd moment S
+* We pick and keep track of many variables ***X***:
+    * For each variable ***X*** we store ***X.el*** and ***X.val***
+        * ***X.el*** corresponds to the item ***i***
+        * ***X.val*** corresponds to the **count** of item ***i***
+    * Note this requries a count in main memeory, so number of ***X***s is limited
+* **Our goal is to compute S =** <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.31.42.png" align="center" height="30">
+
+####One Random Variable (X)
+* How to set ***X.val*** and ***X.el***?
+    * Assume stream has length **n** (we relax this later)
+    * Pick some random time **t (t < n)** to start, so that any time is equally likey
+    * If the stream have item ***i*** at time **t**, we set ***X.el = i***
+    * Then we maintain count **c** (***X.val = c***) of the number of s ***i***s in the stream starting from the chosen time **t**
+* Then the estimate of 2_nd moment (<img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.31.42.png" align="center" height="30">) is:  
+S = f(X)= n(2 \* c -1)
+    * Note, we will keep track of mulitple Xs, (X_1, X_2,...,X_k) and our final estimate will be  
+    S = <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.35.56.png" align="center" height="30">
