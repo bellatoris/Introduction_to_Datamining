@@ -260,7 +260,7 @@ Maintain the set of elements seen so far
     * (x appears  3 times, y appears 2 times, z appears 4 times)
 
 ####Special Cases
-<img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.30.53.png" height="80" align="center" hspace="300"><br><br>
+<img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.30.53.png" height="80" align="center" hspace="300">
 * **0_th moment** = number of distinct elements
     * The problem considered in the last lecture
 * **1_st moment** = count of the numbers of elements = length of the stream
