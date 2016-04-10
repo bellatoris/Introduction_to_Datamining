@@ -299,3 +299,12 @@ Maintain the set of elements seen so far
 <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.39.32.png" align="center" height="40" hspace="200">
     * Note, we will keep track of mulitple Xs, (X_1, X_2,...,X_k) and our final estimate will be  
     S = <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.35.56.png" align="center" height="30">
+    * 마찬가지로 평균을 취해주는 의미는 random variable의 평균을 유지하고 variance를 낮춰서 신뢰도를 올리기 위함이다.
+
+####Expectation Analysis
+![Pic8-9](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.46.33.png)
+* 2_nd moment is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.46.47.png" align="center" height="30">
+* c_t ... number of times item at time **t** appears from time **t** onwards ***(c_1 = m_a, c_2 = m_a - 1, c_3 = m_b)***
+<img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.46.56.png" align="right" height="100">
+* **E[f(x)] =** <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.47.37.png" align="center" height="38">  
+<img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.52.27.png" align="center" height="120">
