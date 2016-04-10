@@ -208,10 +208,10 @@ Maintain the set of elements seen so far
     * The 0_th bit is accessed with prob. 1/2
     * The 1_st bit is accessed with prob. 1/4
     * ... The k_th bit is accessed with prob. (1/2)^(k+1) -> O(1/2^(k+1)) -> O(1/2^k)
-    * k번째 bit가 1이 나올 확률 1/2^(k+1) -> 2^(k+1)개의 item을 넣었을 때 기댓값 = 1<br><br>
-    그러므로 우리의 distinct item의 개수는 대략 2^(k+1)개 일 것이다.<br><br>
+    * k번째 bit가 1이 나올 확률 1/2^(k+1) -> 2^(k+1)개의 item을 넣었을 때 기댓값 = 1  
+    그러므로 우리의 distinct item의 개수는 대략 2^(k+1)개 일 것이다.  
     그런데 우리는 last one bit index를 사용하지 않고 least zero bit index를 사용! -> 2^(k+1)/***phi***가 전체 distinct item의 개수 (k가 last one bit inedex라 했을 때)
-    * last one bit을 사용하지 않고 least zero bit을 사용하는 이유는... 논문에 나와있다!<br><br>
+    * last one bit을 사용하지 않고 least zero bit을 사용하는 이유는... 논문에 나와있다!  
     그런데 생각해보면 k번째 bit가 1이 나올 기댓값을 1로 만들어 주기 위해서는 2^(k+1)이 필요하니까 그냥 편하게 R = k+1이니까 R을 선택한 것이 아닐까?
 
 ####Improving Accuracy
@@ -254,7 +254,7 @@ Maintain the set of elements seen so far
 ####Generalization: Moments
 * Suppose a stream has elements chosen from a set A of N values<br><br>
 * Let *m_i* be the number of times value i occurs in the stream<br><br>
-* The k_th ***moment*** is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.30.53.png" height="50" align="center" hspace="70"><br><br>
+* The k_th ***moment*** is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.30.53.png" height="50" align="center" hspace="5"><br><br>
 * E.g., for a stream (x, y, x, y, z, z, z, x, z),
     * The 2_nd moment is 3^2 + 2^2 + 4^2 = 29
     * (x appears  3 times, y appears 2 times, z appears 4 times)
@@ -306,5 +306,83 @@ Maintain the set of elements seen so far
 * 2_nd moment is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.46.47.png" align="center" height="30">
 * c_t ... number of times item at time **t** appears from time **t** onwards ***(c_1 = m_a, c_2 = m_a - 1, c_3 = m_b)***
 <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.46.56.png" align="right" height="100">
-* **E[f(x)] =** <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.47.37.png" align="center" height="38">  
+* **E[f(X)] =** <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.47.37.png" align="center" height="38">  
 <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.52.27.png" align="center" height="120">
+* 간단하게 생각하면 위의 식은 다음과 같이 생각할 수 있다.
+    * t = 1 부터 n까지 모든 c_t를 더한다는 것은 모든 item i에 대하여 1부터 i가 총 나온 횟수(= m_i)까지 더한다는 것이다.
+    * 이러한 관계를 생각하여 풀어 쓴 식이 위의 식이다.
+* E[f(***X***)] = <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.55.16.png" align="center" height="38">
+    * Little side calculation: (1 + 3 + 5 + ... + 2m_i - 1) =  
+     <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.55.21.png" align="center" height="38">
+* Then E[f(***X***)] = <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.55.29.png" align="center" height="43"><br><br>
+* So, E[f(***X***)] = <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.55.34.png" align="center" height="33"> **= S**
+* We have the second moment (in expectation)!
+* 우리는 모든 **t**에 대해서 더하지 않을 것이기 때문에 in expectation인 것이다.
+
+####Higher-Order Moments
+* For estimating k-th moment we essentially use the same algoritm but change the estimate:
+    * For **k=2** we used n(2\*c - 1)
+    * For **k=3** we use: n(3\*c^2-3\*c+1) (where **c = X.val**)
+* Why?
+    * For k=2: Remember we had (1 + 3 + 5 + ... + 2m_i - 1) and we showed terms ***2c -1*** (for c = 1,...,m) sum to m^2
+        * <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%2010.35.08.png" align="center" height="35">
+        * So:<img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%2010.40.03.png" align="center" height="30">
+    * For k=3: <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%2010.40.09.png" align="center" height="30">
+* Generally: Estimate = <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%2010.40.19.png" align="center" height="30">
+
+####Combining Samples
+* In practive:
+    * Compute f(***X***) = n(2c - 1) for as many variables ***X*** as you can fit in memory
+    * Average them<p>
+* Problem: Streams never end
+    * We assumed there was a number ***n***, the number of positions in the stream
+    * But real streams go on forever, so ***n*** is a variable - the number of inputs seen so far
+
+####Streams Never End: Fixups
+* (1)f(***X***) = n(2c - 1) have ***n*** as a factor - keep ***n*** separately; just hold the count c in ***X***
+* (2) Suppose we can only store ***k*** counts. We must throw some ***X***s out as time goes on:
+    * Objective: Eaxh starting time ***t*** is selected with probability ***k/n***
+    * Solution: (fixed-size sampling = reservoir sampling!)
+        * Choose the first ***k*** times for ***k*** variables
+        * When the ***n_th*** element arrves (***n > k***), choose it with probabiltiy ***k/n***
+        * If you choose it, throw one of the previously stored variables **X** out, with equal probability
+        * n은 그냥 stream의 length이니까 계속 변하게 납두고, k개의 count만 저장한다. 새로운 item이 올때 bucket에 넣을 확률은 k/n이다. -> reservoir sampling!
+
+##Counting Frequent Items
+####Counting Itemsets
+* New Problem: Given a stream, how can we find recent frequent items (= which appear more than s times int the window) efficiently?
+
+####Counting Itemsets
+* New Problem: Given a stream, which items appear more than s times in the window?
+* Possible solution: Think of the stream of baskets as one binary stream per item
+    * 1 = item present; 0 = not present
+    * Use **DGIM** to estimate counts of **1**s for all items
+<img src=https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.56.15.png>
+
+####Extensions
+* In principle, you could count frequent pairs or even larger sets the same way
+    * One stream per itemset
+    * E.g., for a basket {i, j, k}, assume 7 independent streams: (i) (j) (k) (i, j) (i, k) (j, k) (i, j, k)
+    * 그런데 왜  {i, j, k}경우에 7개의 independent streams가 필요한지 모르겠음<p>
+* Drawback:
+    * Number of itemsets is way too big
+
+####Exponentially Decaying Window
+* Exponentially decaying windows: A heuristic for selecting likely frequent item(sets)
+    * What are "curently" most popular movies?
+        * Instead of computing the raw count in last ***N*** elements
+        * Compute a smooth aggregation over the whole stream
+* If stream is a_1, a_2, ... and we are taking the sum of the stream, take the answer at time ***t*** to be: = <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.56.26.png" align="center" height="30">
+    * c is a constant, presumably tiny, like 10^-6 or 10^-9
+* When new a_t+1 arrives:  
+    Multiply current sum by **(1-c)** and add a_t+1
+
+####Example: Counting Items
+* If each a_i is an "item" we can compute the characteristic function of each possible item ***x*** as an Exponentially Decaying Window
+    * That is: <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.56.34.png" align="center" height="30"><br>
+    where <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.56.49.png" align="center" height="30"> if **a_i = x**, and **0** otherwise
+    * Imagine that for each item ***x*** we have a binary stream (**1** if ***x*** appears, **0** if ***x*** does not appear)
+    * New item ***x*** arrives:
+        * Multiply all counts by **(1 - c)**
+        * Add +1 to count for element ***x***
+        * ***Remove all items whose weights < s***
