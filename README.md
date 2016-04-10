@@ -188,9 +188,12 @@ Maintain the set of elements seen so far
 * Estimate the count in an unbiased way -> E(X_hat) = E(X)<br><br>
 * Accept that the count may have a little error, but limit the probability that the error is large
 
+##4월 6일
+
 ####Flajolet-Martin Approach **(O(N)의 memory space 공간을 O(log(N))으로 줄일 수 있다!)**
 * Hash each item x to a bit, using exponential distribution
    * 1/2 map to bit 0, 1/4 map to bit 1, ...
    ![Pic7-20](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-04%20%EC%98%A4%ED%9B%84%2012.54.08.png)
 * Let R be position of the least '0' bit
 * [Flajolet, Martin]: the number of distinct items is 2^R/***phi***, where ***phi*** is a constant
+* 추가적인 설명:  hashing 했을 때 그 결과가 0 이 나올 확률이 1/2, 1이 나올 확률이 1/4, ... , n이 나올 확률이 (1 / 2)^(n + 1)이다. array에서 왼쪽bit부터 
