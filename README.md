@@ -380,9 +380,55 @@ Maintain the set of elements seen so far
 ####Example: Counting Items
 * If each a_i is an "item" we can compute the characteristic function of each possible item ***x*** as an Exponentially Decaying Window
     * That is: <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.56.34.png" align="center" height="30"><br>
-    where <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.56.49.png" align="center" height="30"> if **a_i = x**, and **0** otherwise
+    where <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.56.49.png" align="center" height="23"> if **a_i = x**, and **0** otherwise
     * Imagine that for each item ***x*** we have a binary stream (**1** if ***x*** appears, **0** if ***x*** does not appear)
-    * New item ***x*** arrives:
-        * Multiply all counts by **(1 - c)**
+    * New item ***x*** arrives: 
+        * Multiply all counts by **(1 - c)** <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%208.50.55.png" align="right" height="70">
         * Add +1 to count for element ***x***
         * ***Remove all items whose weights < s***
+* Call this sum the "weight" of item ***X***
+
+####Example: Counting Items
+<img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%208.54.18.png" align="center" height="80"><br>
+<img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%208.54.27.png" align="center" height="60"> Assume c = 0.2, Keep items with weights >= 1/2
+* (T1) x: 1
+* (T2) x: 0.8*1, y: 1
+* (T3) x: 0.8*0.8 + 1, y: 0.8*1
+* (T4) x: 0.8*1.64, y: 0.8*0.8, z: 1
+* (T5) x: 1.312 + 1, y: 0.8*0.64, z: 0.8*1
+* (T6) x: 0.8*2.312, y: 0.8*0.512, z: 0.8*0.8 + 1
+    * Remove y (y < 0.5)
+* (T7) x: 0.8*1.8496 + 1, z: 0.8*0.64
+* ...
+
+####Sliding vs. Decaying Windows
+![Pic8-21](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.58.08.png)
+* Importatnt property: Sum over all weights <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.37.png" align="center" height="30"> is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.46.png" align="center" height="28">
+
+####Example: Counting Items
+* What are "currently" most popular movies?
+* Suppose we want to find movies of weight > 1/2
+    * Importatnt property: Sum over all weights <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.37.png" align="center" height="30"> is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.46.png" align="center" height="28">
+* Thus:
+    * There cannot be more than **2/c** movies with weight > 1/2
+* So, **2/c** is limit on the number of movies being counted at any time (if we remove movies whose weight <= 1/2)
+
+####Extension to Itemsets
+* Assume at each time we are given an itemset
+    * E.g., {i, j, k}, {k, x}, {i, j}<p>
+* Count (some) itemssets in an E.D.W
+    * What are currently "hot" itemsets?"
+    * Problem: Too many itemsets to keep counts of all of them in memory
+* When a basket B comes in:
+    * Multiply all counts by **(1 - c)**
+    * For uncounted items in **B**, create new count
+    * Add **1** to count of any item in **B** and to any **itemset** contained in **B** that is alresdy being counted
+    * **Remove items and itemsets whose counts < 1/2**
+    * Initiate new counts
+
+####Initiation of New Counts
+* Start a count for an itemset <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.11.03.png" aling="center" height="30"> if every proper subset of ***S*** had a count prior to arraibal of basket ***B***
+    * Intuitively: If all subsets of ***S*** are being countes this means they are "**frequent/hot**" and thus ***S*** has a potential to be "**hot**"
+* Example:
+    * Start counting ***S*** = **{i, j}** iff both **i** and **j** were counted prior to seeing ***B***
+    * Start counting ***S*** = **{i, j, k}** iff **{i, j}, {i, k}** and **{j, k}** were all counted prior to seeing ***B***
