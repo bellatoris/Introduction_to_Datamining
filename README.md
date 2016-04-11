@@ -314,7 +314,7 @@ Maintain the set of elements seen so far
 * E[f(***X***)] = <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.55.16.png" align="center" height="38">
     * Little side calculation: (1 + 3 + 5 + ... + 2m_i - 1) =  
      <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.55.21.png" align="center" height="38">
-* Then E[f(***X***)] = <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.55.29.png" align="center" height="43"><br><br>
+* Then E[f(***X***)] = <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.55.29.png" align="center" height="43"><p>
 * So, E[f(***X***)] = <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.55.34.png" align="center" height="33"> **= S**
 * We have the second moment (in expectation)!
 * 우리는 모든 **t**에 대해서 더하지 않을 것이기 때문에 in expectation인 것이다.
@@ -339,14 +339,16 @@ Maintain the set of elements seen so far
     * But real streams go on forever, so ***n*** is a variable - the number of inputs seen so far
 
 ####Streams Never End: Fixups
-* (1)f(***X***) = n(2c - 1) have ***n*** as a factor - keep ***n*** separately; just hold the count c in ***X***
+* (1) f(***X***) = n(2c - 1) have ***n*** as a factor - keep ***n*** separately; just hold the count c in ***X***
 * (2) Suppose we can only store ***k*** counts. We must throw some ***X***s out as time goes on:
     * Objective: Eaxh starting time ***t*** is selected with probability ***k/n***
     * Solution: (fixed-size sampling = reservoir sampling!)
         * Choose the first ***k*** times for ***k*** variables
         * When the ***n_th*** element arrves (***n > k***), choose it with probabiltiy ***k/n***
-        * If you choose it, throw one of the previously stored variables **X** out, with equal probability
+        * If you choose it, throw one of the previously stored variables **X** out, with equal probability -> unbiased!!
         * n은 그냥 stream의 length이니까 계속 변하게 납두고, k개의 count만 저장한다. 새로운 item이 올때 bucket에 넣을 확률은 k/n이다. -> reservoir sampling!
+        * 어떤이의 질문: 아니 그러면 새로운 input이 들어올 때마다 k개를 search해야 하니까 O(n\*k)인데 안좋은거 아니냐!
+        * 교수님의 대답: k는 n에 비해서 매우 작기 때문에 그 정도 linear search는 나쁘지 않다!
 
 ##Counting Frequent Items
 ####Counting Itemsets
@@ -358,16 +360,18 @@ Maintain the set of elements seen so far
     * 1 = item present; 0 = not present
     * Use **DGIM** to estimate counts of **1**s for all items
 <img src=https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.56.15.png>
+    * 여러개의 item마다 각각 **DGIM** method사용 
 
 ####Extensions
 * In principle, you could count frequent pairs or even larger sets the same way
     * One stream per itemset
     * E.g., for a basket {i, j, k}, assume 7 independent streams: (i) (j) (k) (i, j) (i, k) (j, k) (i, j, k)
-    * 그런데 왜  {i, j, k}경우에 7개의 independent streams가 필요한지 모르겠음<p>
+    * 그런데 왜  {i, j, k}경우에 7개의 independent streams가 필요한지 모르겠음
+    * 어떠한 itemset이 "hot"한지 알고 싶으면 모든 subset에 대해서 independent stream을 만들어야함 -> memory엄청 필요<p>
 * Drawback:
     * Number of itemsets is way too big
 
-####Exponentially Decaying Window
+####Exponentially Decaying Windows
 * Exponentially decaying windows: A heuristic for selecting likely frequent item(sets)
     * What are "curently" most popular movies?
         * Instead of computing the raw count in last ***N*** elements
@@ -375,7 +379,7 @@ Maintain the set of elements seen so far
 * If stream is a_1, a_2, ... and we are taking the sum of the stream, take the answer at time ***t*** to be: = <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.56.26.png" align="center" height="30">
     * c is a constant, presumably tiny, like 10^-6 or 10^-9
 * When new a_t+1 arrives:  
-    Multiply current sum by **(1-c)** and add a_t+1
+    Multiply current sum by **(1 - c)** and add a_t + 1
 
 ####Example: Counting Items
 * If each a_i is an "item" we can compute the characteristic function of each possible item ***x*** as an Exponentially Decaying Window
@@ -392,18 +396,18 @@ Maintain the set of elements seen so far
 <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%208.54.18.png" align="center" height="80"><br>
 <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%208.54.27.png" align="center" height="60"> Assume c = 0.2, Keep items with weights >= 1/2
 * (T1) x: 1
-* (T2) x: 0.8*1, y: 1
-* (T3) x: 0.8*0.8 + 1, y: 0.8*1
-* (T4) x: 0.8*1.64, y: 0.8*0.8, z: 1
-* (T5) x: 1.312 + 1, y: 0.8*0.64, z: 0.8*1
-* (T6) x: 0.8*2.312, y: 0.8*0.512, z: 0.8*0.8 + 1
+* (T2) x: 0.8\*1, y: 1
+* (T3) x: 0.8\*0.8 + 1, y: 0.8\*1
+* (T4) x: 0.8\*1.64, y: 0.8\*0.8, z: 1
+* (T5) x: 1.312 + 1, y: 0.8\*0.64, z: 0.8\*1
+* (T6) x: 0.8\*2.312, y: 0.8\*0.512, z: 0.8\*0.8 + 1
     * Remove y (y < 0.5)
-* (T7) x: 0.8*1.8496 + 1, z: 0.8*0.64
+* (T7) x: 0.8\*1.8496 + 1, z: 0.8\*0.64
 * ...
 
 ####Sliding vs. Decaying Windows
 ![Pic8-21](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.58.08.png)
-* Importatnt property: Sum over all weights <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.37.png" align="center" height="30"> is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.46.png" align="center" height="28">
+* Importatnt property: Sum over all weights <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.37.png" align="center" height="20"> is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.46.png" align="center" height="18">
 
 ####Example: Counting Items
 * What are "currently" most popular movies?
@@ -411,6 +415,7 @@ Maintain the set of elements seen so far
     * Importatnt property: Sum over all weights <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.37.png" align="center" height="30"> is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.46.png" align="center" height="28">
 * Thus:
     * There cannot be more than **2/c** movies with weight > 1/2
+    * 
 * So, **2/c** is limit on the number of movies being counted at any time (if we remove movies whose weight <= 1/2)
 
 ####Extension to Itemsets
