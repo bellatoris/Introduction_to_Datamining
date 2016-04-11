@@ -516,7 +516,6 @@ Maintain the set of elements seen so far
 * Think of in-links as votes:
     * www.snu.ac.kr has 100,000 in-links
     * www.joe-schmoe.com has 1 in links<p>
-
 * Are all in-links equal?
     * **Links from important pages count more**
     * Recursive question!
