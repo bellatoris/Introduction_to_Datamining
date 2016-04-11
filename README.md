@@ -452,3 +452,97 @@ Maintain the set of elements seen so far
     * Counting Frequent Itemsets (exponentially decaying windows)
 
 ##4월 11일
+##Link Analysis
+###Overview
+***
+####Graph Data: Social Networks
+![Pic9-3](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%2011.35.49.png)
+
+####Graph Data: Media Networks
+![Pic9-4](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%2011.36.16.png)
+
+####Graph Data: Information Networks
+![Pic9-5](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%2011.36.40.png)
+
+####Graph Data: Communication Networks
+![Pic9-6](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%2011.37.02.png)
+
+####Web as a Graph
+* Web as a directed graph:
+   * Nodes: Webpages
+   * Edges: Hyperlinks
+   ![Pic9-8](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%2011.37.50.png)
+
+####Web as a Directed Graph
+![Pic9-10](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%2011.55.07.png)
+
+####Broad Question
+* How to organize the Web? <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%2011.38.05.png" align="right" height="250">
+* **First try**: Human curated **Web directories**
+    * Yahoo, DMOZ, LookSmart
+* **Second try**: **Web Search**
+    * Information Retrieval investigates: Find relevant docs in a small and trusted set
+        * Newspaper articles, patents, etc.
+    * **But**: Web is **huge**, full of untrusted documents, random things, web spam, etc.
+
+####Web Search: 2 Challenges<br>
+2 challenges of web search:
+* (1) Web contains many sources of information Who to "trust"?
+    * **Idea**: Trustworthy pages may point to each other!<p>
+* (2) What is the "best" answer to the query "newspaper"?
+    * No single right answer
+    * **Idea**: Pages that actually know about newspapers might all be pointing to many newspapers
+
+####Ranking Nodes on the Graph<img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%2011.38.18.png" align="right" height="200">
+* All web pages are not equally "important"<br>
+    www.joe-schmoe.com vs. www.snu.ac.kr <p>
+* There is large diversity in the web-graph node connectivity.<br>
+    **Lets rank the pages by the link structure!**
+
+####Link Analysis Algorithms
+* We will cover ther following **Link Analysis approaches** for computing **importances** of nodes in graph:
+    * Page Rank
+    * Topic-Specific (Personalized) Page Rank
+    * Web Spam Detection Algorithms
+
+###PageRank: Flow Formulation
+***
+####Links as Votes
+* **Idea: Links as votes**
+    * **A page is more important if it has more links**
+        * In-coming links? Out-going links?
+        * Generally In-coming links are more important
+        * Out-going은 그냥 link많이 달면 되는 거니까
+* Think of in-links as votes:
+    * www.snu.ac.kr has 100,000 in-links
+    * www.joe-schmoe.com has 1 in links<p>
+
+* Are all in-links equal?
+    * **Links from important pages count more**
+    * Recursive question!
+
+####Example: PageRank Scores
+![Pic9-17](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%2011.38.35.png)
+
+####Simple Recursive Formulation
+* Each link's vote is proprotional to the **importance** of its source page<p>
+* If page ***j*** wigh importance ***r_j*** has ***n*** out-links, each link gets ***r_j/n*** votes<p>
+* Page ***j***'s own importance is the sum of the votes on its in-links<br>
+***r_j = r_i/3 + r_k/4*** <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%2011.38.56.png" align="center" height="200">
+
+####PageRank: The "Flow" Model <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%2011.39.20.png" align="right" height="300">
+* A "vote" from an important page is worth more
+* A page is important if it is pointed to by other important pages
+* **Define a "rank" r_j for page j**<br>
+<img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%2011.39.09.png" align="center" height="150">
+
+####Solving the Flow Equations <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%2011.39.30.png" align="right" height="100">
+* 3 equations, 3 unkowns, no constants
+    * No unique solution
+    * All solutions equivalent modulo the scale factor
+        * i.e, Multiplying c to given a solution r_y, r_a, r_m will give you another solution
+* Additional constraint forces uniqueness:
+    * r_y + r_a + r_m = 1
+    * Solution: r_y = 2/5, r_a = 2/5, r_m = 1/5
+* Gaussian elimination method works for small examples, but we need a better methods for large web-size graphs
+* We need a new formulation!
