@@ -407,15 +407,17 @@ Maintain the set of elements seen so far
 
 ####Sliding vs. Decaying Windows
 ![Pic8-21](https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.58.08.png)
-* Importatnt property: Sum over all weights <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.37.png" align="center" height="20"> is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.46.png" align="center" height="18">
+* Importatnt property: Sum over all weights <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.37.png" align="center" height="25"> is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.46.png" align="center" height="23">
 
 ####Example: Counting Items
 * What are "currently" most popular movies?
 * Suppose we want to find movies of weight > 1/2
-    * Importatnt property: Sum over all weights <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.37.png" align="center" height="30"> is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.46.png" align="center" height="28">
+    * Importatnt property: Sum over all weights <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.37.png" align="center" height="25"> is <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.02.46.png" align="center" height="23">
 * Thus:
     * There cannot be more than **2/c** movies with weight > 1/2
-    * 
+    * 1/c > 살아남은 item 개수 \* 각각의 item들의 weight > 살아남은 item 개수 \* 1/2
+    * 1/c > 살아남은 item 개수 \* 1/2
+    * 2/c > 살아남은 item 개수 
 * So, **2/c** is limit on the number of movies being counted at any time (if we remove movies whose weight <= 1/2)
 
 ####Extension to Itemsets
@@ -424,6 +426,7 @@ Maintain the set of elements seen so far
 * Count (some) itemssets in an E.D.W
     * What are currently "hot" itemsets?"
     * Problem: Too many itemsets to keep counts of all of them in memory
+    * 모든 itemset과 그 subset을 keep count하기는 힘들다.
 * When a basket B comes in:
     * Multiply all counts by **(1 - c)**
     * For uncounted items in **B**, create new count
@@ -437,3 +440,15 @@ Maintain the set of elements seen so far
 * Example:
     * Start counting ***S*** = **{i, j}** iff both **i** and **j** were counted prior to seeing ***B***
     * Start counting ***S*** = **{i, j, k}** iff **{i, j}, {i, k}** and **{j, k}** were all counted prior to seeing ***B***
+    * 즉 {i, j, k}가 "hot"하다면 {i, j}, {j, k}, {i, k}는 무조건 "hot"할 것이다. 그러니 {i, j}, {j, k}, {i, k}가 현재 count에 없다면 {i, j, k}는 count에 추가시키지 않는다.
+
+####Summary - Streaming Mining
+* Important tools for stream mining
+    * Sampling from Data Stream (Reservoir Sampling)
+    * Querying Over Sliding Windows (DGIM method for counting the number of 1s or sums in the window)
+    * Filtering a Data Stream (Bloom Filter)
+    * Counting a Distinct Elements (Flajolet-Martin)
+    * Estimating Moments (AMS method; surprise number)
+    * Counting Frequent Itemsets (exponentially decaying windows)
+
+##4월 11일
