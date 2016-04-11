@@ -427,7 +427,7 @@ Maintain the set of elements seen so far
     * Initiate new counts
 
 ####Initiation of New Counts
-* Start a count for an itemset <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.11.03.png" aling="center" height="30"> if every proper subset of ***S*** had a count prior to arraibal of basket ***B***
+* Start a count for an itemset <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-11%20%EC%98%A4%EC%A0%84%209.11.03.png" align="center" height="20"> if every proper subset of ***S*** had a count prior to arraibal of basket ***B***
     * Intuitively: If all subsets of ***S*** are being countes this means they are "**frequent/hot**" and thus ***S*** has a potential to be "**hot**"
 * Example:
     * Start counting ***S*** = **{i, j}** iff both **i** and **j** were counted prior to seeing ***B***
