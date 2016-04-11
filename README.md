@@ -271,7 +271,7 @@ Maintain the set of elements seen so far
 ####Example: Surprise Number
 * Stream of length 100
 * 11 distinct values<br><br>
-* Item counts: 10, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9 **Surprsie S = 910**<br><br>
+* Item counts: 10, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9 **Surprise S = 910**<br><br>
 * Item counts: 90, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 **Surprise S = 8,110**<br><br>
 
 ####Problem Definition
@@ -280,7 +280,7 @@ Maintain the set of elements seen so far
 
 ####AMS Method
 * AMS method works for all moments
-* Gines an unbiased setimate
+* Gines an unbiased estimate
 * We first concentrate on the 2_nd moment S
 * We pick and keep track of many variables ***X***:
     * For each variable ***X*** we store ***X.el*** and ***X.val***
@@ -294,11 +294,11 @@ Maintain the set of elements seen so far
     * Assume stream has length **n** (we relax this later)
     * Pick some random time **t (t < n)** to start, so that any time is equally likey
     * If the stream have item ***i*** at time **t**, we set ***X.el = i***
-    * Then we maintain count **c** (***X.val = c***) of the number of s ***i***s in the stream starting from the chosen time **t**
+    * Then we maintain count **c** (***X.val = c***) of the number of ***i***s in the stream starting from the chosen time **t**
 * Then the estimate of 2_nd moment (<img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%208.31.42.png" align="center" height="30">) is:  
 <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.39.32.png" align="center" height="40" hspace="200">
     * Note, we will keep track of mulitple Xs, (X_1, X_2,...,X_k) and our final estimate will be  
-    S = <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.35.56.png" align="center" height="30">
+    S = <img src="https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202016-04-10%20%EC%98%A4%ED%9B%84%209.35.56.png" align="center" height="40">
     * 마찬가지로 평균을 취해주는 의미는 random variable의 평균을 유지하고 variance를 낮춰서 신뢰도를 올리기 위함이다.
 
 ####Expectation Analysis
