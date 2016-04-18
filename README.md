@@ -585,12 +585,19 @@ Maintain the set of elements seen so far
     * Ends up on some page ***j*** linked from ***i***
     * Process repeats indefinitely
 * Let:
-    * ***p(t)*** ... vector whose ***i***_th coordinate is the prob. that the surfer is at page ***i*** at time ***t***
+    * ***p(t)*** ... vector whose ***i_th*** coordinate is the prob. that the surfer is at page ***i*** at time ***t***
     * So, ***p(t)*** is a probability distribution over pages
 
 #### The Stationary Distribution
 * Where is the surfer at time ***t + 1***?
     * Follows a link uniformly at random  ***p(t + 1)*** = ***M*** \* ***p(t)***
-* Suppose the random walk reaches a state  ***p(t + 1)*** = ***M*** \* ***p(t)*** = ***p(t)***  then ***p(t)*** is called **stationary distribution** of a random walke
+* Suppose the random walk reaches a state  ***p(t + 1)*** = ***M*** \* ***p(t)*** = ***p(t)***  then ***p(t)*** is called **stationary distribution** of a random walk
 * **Our original rank vector** ***r*** satisfies ***r = M*** \* ***r***
     * So, ***r*** is a stationary distribution for the random walk
+
+#### Existence and Uniqueness
+* A central result from the theory of random walks (a.k.a Markov processes):
+
+> > For graphs that saisfy certain conditions, the stationary distribution is unique and eventually will be reaches no matter what the initial probability distribution at time t = 0
+
+* Certain conditions: a walk starting from a random page can reach any other page
