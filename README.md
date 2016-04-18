@@ -483,7 +483,7 @@ Maintain the set of elements seen so far
 * **First try**: Human curated **Web directories**
     * Yahoo, DMOZ, LookSmart
 * **Second try**: **Web Search**
-    * Information Retrieval investigates: Find relevant docs in a small and trusted set
+    * **Information Retrieval** investigates: Find relevant docs in a small and trusted set
         * Newspaper articles, patents, etc.
     * **But**: Web is **huge**, full of untrusted documents, random things, web spam, etc.
 
@@ -541,18 +541,18 @@ Maintain the set of elements seen so far
 * 3 equations, 3 unkowns, no constants
     * No unique solution
     * All solutions equivalent modulo the scale factor
-        * i.e, Multiplying c to given a solution r_y, r_a, r_m will give you another solution
+        * i.e, Multiplying c to given a solution ***r_y***, ***r_a***, ***r_m*** will give you another solution
 * Additional constraint forces uniqueness:
-    * r_y + r_a + r_m = 1
-    * Solution: r_y = 2/5, r_a = 2/5, r_m = 1/5
+    * ***r_y*** + ***r_a*** + ***r_m*** = 1
+    * Solution: ***r_y*** = 2/5, ****r_a*** = 2/5, ***r_m*** = 1/5
 * Gaussian elimination method works for small examples, but we need a better methods for large web-size graphs
 * We need a new formulation!
 
 #### PageRank: Matrix Formulation
-* Stochastic adjacency matrix *M*
-    * Let page *i* has *d_i* out-links
-    * If *i* -> *j*, then *M_ji* = 1 / *d_i* else *M_ij* = 0
-        * *M* is a **colum stochastic matirx**
+* Stochastic adjacency matrix ***M***
+    * Let page ***i*** has ***d_i*** out-links
+    * If ***i*** -> ***j***, then ***M_ji*** = 1 / ***d_i*** else ***M_ij*** = 0
+        * ***M*** is a **colum stochastic matirx**
             * Columns sum to 1
 
 #### Power Iteration Method
@@ -601,9 +601,9 @@ Maintain the set of elements seen so far
 #### Existence and Uniqueness
 * A central result from the theory of random walks (a.k.a Markov processes):
 
-> For graphs that saisfy certain conditions, the stationary distribution is unique and eventually will be reaches no matter what the initial probability distribution at time t = 0
+> For graphs that satisfy certain conditions, the stationary distribution is unique and eventually will be reaches no matter what the initial probability distribution at time t = 0
 
-* Certain conditions: a walk starting from a random page can reach any other page
+* Certain conditions: a walk starting from a random page can reach any other page -> no dead-ends, no spider trap
 
 ## Link Analysis-2
 ### PageRank: Google Formulation
