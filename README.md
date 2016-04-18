@@ -589,8 +589,8 @@ Maintain the set of elements seen so far
     * So, ***p(t)*** is a probability distribution over pages
 
 #### The Stationary Distribution
-* Where is the surfer at time ***t + 1****?
-    * Follows a link uniformly at random  ***p(t + 1)*** = ***M \* p(t)***
-* Suppose the random walk reaches a state  ***p(t + 1)*** = ***M \* p(t)*** = ***p(t)***  then ***p(t)*** is called **stationary distribution** of a random walke
-* **Our original rank vector** ***r*** satisfies ***r = M \* r***
+* Where is the surfer at time ***t + 1***?
+    * Follows a link uniformly at random  ***p(t + 1)*** = ***M*** \* ***p(t)***
+* Suppose the random walk reaches a state  ***p(t + 1)*** = ***M*** \* ***p(t)*** = ***p(t)***  then ***p(t)*** is called **stationary distribution** of a random walke
+* **Our original rank vector** ***r*** satisfies ***r = M*** \* ***r***
     * So, ***r*** is a stationary distribution for the random walk
