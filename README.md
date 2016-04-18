@@ -549,3 +549,48 @@ Maintain the set of elements seen so far
 * We need a new formulation!
 
 #### PageRank: Matrix Formulation
+* Stochastic adjacency matrix *M*
+    * Let page *i* has *d_i* out-links
+    * If *i* -> *j*, then *M_ji* = 1 / *d_i* else *M_ij* = 0
+        * *M* is a **colum stochastic matirx**
+            * Columns sum to 1
+
+#### Power Iteration Method
+* Given a web graph with *n* nodes, where the nodes are pages and edges are hyperlinks
+* Power iteration: a simple iterative scheme
+    * Suppose there are *N* web pages
+    * Initiailize:
+    * Iterate:
+    * Stop when
+
+* Power iteration:  A method for finding dominant eigenvector (the vector corresponding to the largest eigenvalue)
+    * 
+    * 
+    * 
+* Fact:  Sequnce approaches the dominant eigenvector of ***M***
+    * Dominant eigenvector = the one corresponding to the largest eigenvalue
+
+#### PageRank: How to solve?
+* Power Iteration:
+    * 
+    * 
+    * 
+    * Goto **1**
+* Example:
+
+#### Random Walk Interpretation
+* Imageine a random web surfer:
+    * At any time ***t***, surfer is on some page ***i***
+    * At any time ***t + 1***, the surfer follows an out-link from ***i*** uniformly at random
+    * Ends up on some page ***j*** linked from ***i***
+    * Process repeats indefinitely
+* Let:
+    * ***p(t)*** ... vector whose ***i***_th coordinate is the prob. that the surfer is at page ***i*** at time ***t***
+    * So, ***p(t)*** is a probability distribution over pages
+
+#### The Stationary Distribution
+* Where is the surfer at time ***t + 1****?
+    * Follows a link uniformly at random  ***p(t + 1)*** = ***M \* p(t)***
+* Suppose the random walk reaches a state  ***p(t + 1)*** = ***M \* p(t)*** = ***p(t)***  then ***p(t)*** is called **stationary distribution** of a random walke
+* **Our original rank vector** ***r*** satisfies ***r = M \* r***
+    * So, ***r*** is a stationary distribution for the random walk
