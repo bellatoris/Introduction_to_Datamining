@@ -561,14 +561,17 @@ Maintain the set of elements seen so far
     * Suppose there are *N* web pages
     * Initiailize:
     * Iterate:
-    * Stop when
-
+    * Stop when<p>
 * Power iteration:  A method for finding dominant eigenvector (the vector corresponding to the largest eigenvalue)
     * 
     * 
     * 
 * Fact:  Sequnce approaches the dominant eigenvector of ***M***
     * Dominant eigenvector = the one corresponding to the largest eigenvalue
+* Computation time:
+   * Power iteration의 computation time은 ***O(2|M|)*** (per iteration) 이다. -> 매우 efficient하다.
+        * 2 = \# of floating point operation = multiply + add < ***N^2***
+        * ***|M|*** = size of non zero of ***M***, ***M***이 매우 sparse하기 때문에 
 
 #### PageRank: How to solve?
 * Power Iteration:
@@ -598,6 +601,6 @@ Maintain the set of elements seen so far
 #### Existence and Uniqueness
 * A central result from the theory of random walks (a.k.a Markov processes):
 
-> > For graphs that saisfy certain conditions, the stationary distribution is unique and eventually will be reaches no matter what the initial probability distribution at time t = 0
+> For graphs that saisfy certain conditions, the stationary distribution is unique and eventually will be reaches no matter what the initial probability distribution at time t = 0
 
 * Certain conditions: a walk starting from a random page can reach any other page
