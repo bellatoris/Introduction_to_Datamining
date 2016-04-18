@@ -1,6 +1,7 @@
 # Introduction_to_Datamining
 <img src = "https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/IMG_2568.GIF">
 * 편집방법: 날짜 \#,  Lecture 제목 \#\#  Outline \#\#\#  소제목 \#\#\#\#  
+
 ##Lecture \#6: Mining Data Streams
 ###Queries Over Sliding Window
 ***
