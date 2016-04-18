@@ -1,5 +1,6 @@
 # Introduction_to_Datamining
 <img src = "https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/IMG_2568.GIF">
+* 편집방법: 날짜 \#,  Lecture 제목 \#\#  Outline \#\#\#  소제목 \#\#\#\#
 ##Lecture \#6: Mining Data Streams
 ###Queries Over Sliding Window
 ***
@@ -545,3 +546,5 @@ Maintain the set of elements seen so far
     * Solution: r_y = 2/5, r_a = 2/5, r_m = 1/5
 * Gaussian elimination method works for small examples, but we need a better methods for large web-size graphs
 * We need a new formulation!
+
+#### PageRank: Matrix Formulation
