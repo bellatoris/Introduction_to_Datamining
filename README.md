@@ -1,6 +1,6 @@
 # Introduction_to_Datamining
 <img src = "https://github.com/bellatoris/Introduction_to_Datamining/blob/master/Picture/IMG_2568.GIF">
-## 편집방법: 날짜 \#,  Lecture 제목 \#\#  Outline \#\#\#  소제목 \#\#\#\#  
+## 편집방법: 날짜 \#,  Lecture 제목 \#\#  Outline \#\#\# + \*\*\*  소제목 \#\#\#\#  
 
 ##Lecture \#6: Mining Data Streams
 ###Queries Over Sliding Window
@@ -483,7 +483,7 @@ Maintain the set of elements seen so far
 * **First try**: Human curated **Web directories**
     * Yahoo, DMOZ, LookSmart
 * **Second try**: **Web Search**
-    * Information Retrieval investigates: Find relevant docs in a small and trusted set
+    * **Information Retrieval** investigates: Find relevant docs in a small and trusted set
         * Newspaper articles, patents, etc.
     * **But**: Web is **huge**, full of untrusted documents, random things, web spam, etc.
 
@@ -541,11 +541,157 @@ Maintain the set of elements seen so far
 * 3 equations, 3 unkowns, no constants
     * No unique solution
     * All solutions equivalent modulo the scale factor
-        * i.e, Multiplying c to given a solution r_y, r_a, r_m will give you another solution
+        * i.e, Multiplying c to given a solution ***r_y***, ***r_a***, ***r_m*** will give you another solution
 * Additional constraint forces uniqueness:
-    * r_y + r_a + r_m = 1
-    * Solution: r_y = 2/5, r_a = 2/5, r_m = 1/5
+    * ***r_y*** + ***r_a*** + ***r_m*** = 1
+    * Solution: ***r_y*** = 2/5, ****r_a*** = 2/5, ***r_m*** = 1/5
 * Gaussian elimination method works for small examples, but we need a better methods for large web-size graphs
 * We need a new formulation!
 
 #### PageRank: Matrix Formulation
+* Stochastic adjacency matrix ***M***
+    * Let page ***i*** has ***d_i*** out-links
+    * If ***i*** -> ***j***, then ***M_ji*** = 1 / ***d_i*** else ***M_ij*** = 0
+        * ***M*** is a **colum stochastic matirx**
+            * Columns sum to 1
+
+#### Power Iteration Method
+* Given a web graph with *n* nodes, where the nodes are pages and edges are hyperlinks
+* Power iteration: a simple iterative scheme
+    * Suppose there are *N* web pages
+    * Initiailize:
+    * Iterate:
+    * Stop when<p>
+* Power iteration:  A method for finding dominant eigenvector (the vector corresponding to the largest eigenvalue)
+    * 
+    * 
+    * 
+* Fact:  Sequnce approaches the dominant eigenvector of ***M***
+    * Dominant eigenvector = the one corresponding to the largest eigenvalue
+* Computation time:
+   * Power iteration의 computation time은 O(2|***M***|) (per iteration) 이다. -> 매우 efficient하다. ( ***M***이 매우 sparse하기 때문에)
+        * 2 = \# of floating point operation = multiply + add
+        * |***M***| = size of non zero of ***M***.
+
+#### PageRank: How to solve?
+* Power Iteration:
+    * 
+    * 
+    * 
+    * Goto **1**
+* Example:
+
+#### Random Walk Interpretation
+* Imageine a random web surfer:
+    * At any time ***t***, surfer is on some page ***i***
+    * At any time ***t + 1***, the surfer follows an out-link from ***i*** uniformly at random
+    * Ends up on some page ***j*** linked from ***i***
+    * Process repeats indefinitely
+* Let:
+    * ***p(t)*** ... vector whose ***i_th*** coordinate is the prob. that the surfer is at page ***i*** at time ***t***
+    * So, ***p(t)*** is a probability distribution over pages
+
+#### The Stationary Distribution
+* Where is the surfer at time ***t + 1***?
+    * Follows a link uniformly at random  ***p(t + 1)*** = ***M*** \* ***p(t)***
+* Suppose the random walk reaches a state  ***p(t + 1)*** = ***M*** \* ***p(t)*** = ***p(t)***  then ***p(t)*** is called **stationary distribution** of a random walk
+* **Our original rank vector** ***r*** satisfies ***r = M*** \* ***r***
+    * So, ***r*** is a stationary distribution for the random walk
+
+#### Existence and Uniqueness
+* A central result from the theory of random walks (a.k.a Markov processes):
+
+> For graphs that satisfy certain conditions, the stationary distribution is unique and eventually will be reaches no matter what the initial probability distribution at time t = 0
+
+* Certain conditions: a walk starting from a random page can reach any other page -> no dead-ends, no spider trap
+
+## Link Analysis-2
+### PageRank: Google Formulation
+***
+#### PageRank: Three Questions
+* Does this converge?
+* Does it converge to what we want?
+* Are results reasonable?
+
+#### Does this converge?
+
+#### Does it converge to what we want
+
+#### PageRank: Problems
+**2 problems**
+* (1) Some pages are **dead ends** (have no out-links)
+    * Random walk has "nowhere" to go to
+    * Such pages cause importance to "leak out"<p>
+* (2) Spider traps:  (all out-links are within the group)
+    * Random walked gets "stuck" in a trap
+    * And eventually spider traps absorb all importance
+
+#### Problem: Spider Traps
+
+#### Solution: Teleports!
+* The Google solution for spider traps: At each time step, the random surfer has two options
+    * With prob. ,follow a link at random
+    * With prob. 1 - , jump to some random page
+    * Common values for  are in the range 0.8 to 0.9
+* Surfer will teleport out of spider trap within a few time steps
+
+#### Problem: Dead Ends
+* Power Iteration:
+
+#### Solution: Always Teleport!
+* Teleports: Follow random teleport links with probability 1.0 from dead-ends
+    * Adjust matrix accordingly
+
+#### Why Teleports Solve the Problem?
+**Why are dead-ends and spider traps a problem and why do teleports solve the problem?**
+* Spider-traps are not a problem, but with traps PageRank scores are **not** what we want
+    * Solution: Never get stuck in a spider trap by teleporting out of it in a finite number of steps
+* Dead-ends are a problem
+    * The matrix is not column stochastic so our initial assumptions are not met
+    * Solution: Make matrix column stochastic by always teleporting when there is nowhere else to go
+
+#### Solution: Random Teleports
+* Google's solution that does it all:  At each step, random surfer has two options:
+    * With probability , follow a link at random
+    * With probability 1 - , jump to some random page<p>
+* PageRank equation [Brin-Page, 98]
+
+#### The Google Matrix
+* PageRank equation [Brin-Page, 98]
+* In matrix form;
+* The Google Matrix A:
+* We have a recursive problem: ***r = A*** \* ***r***  And the Power method still works!
+* What is ?
+    * In practive = 0.8, 0.8 (make ~5 steps on avg., jump)
+
+#### Random Teleports ( = 0.8)
+
+### Computing PageRank
+***
+#### Computing PageRank
+* Key step is matrix-vector multiplication
+* Easy if we have enough main memory to hold **A**,
+* Say N = 1 billion pages
+    * We need 4 bytes for each entry (say)
+    * Total 2 billion entries for 2 vectors(): ~ 8GB
+    * Matrix **A** has N^2 entires
+        * N^2 = 10^18 (1000 Peta) is a large number!
+        * We need to exploit sparsity of M
+
+#### Sparse Matrix Formulation
+* ***r*** = ***A*** \* ***r***, where 
+* Main idea: do not construct **A** explicitly<p>
+* Specifically:<p>
+* The PageRank equation
+* ***M*** is a sparse Matrix!
+    * 10 links per node, approx 10N entries
+* So in each iteration, we need to:
+    * Compute
+    * Add a constant value to each entry in
+        * Note if ***M*** contains dead-ends then and we also have to renormalize so that it sums to 1
+
+#### PageRank: The Complete Algorithm
+* Input: Graph ***G*** and parameter
+    * Directed graph ***G*** (can have **spider trap** and **dead ends**)
+    * Parameter
+* Output: PageRank vector
